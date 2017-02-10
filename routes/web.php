@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+// Handle crud for store
+Route::resource('stores', 'StoreController');
