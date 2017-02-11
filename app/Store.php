@@ -8,11 +8,17 @@ class Store extends Model
 {
     protected $table = 'stores';
 
+    protected $attributes = array(
+        'logo' => 'default.png'
+    );
+
     protected $fillable = [
       'name',
       'logo',
       'address',
+      'description',
       'state',
-      'lga'
+      'lga',
+      'user_id'
     ];
 }

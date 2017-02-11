@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Store;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,10 @@ class StoreController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::user()->id;
+        $stores = Store::where('user_id', $user_id)->get();
+
+        return view('stores.index', compact('stores'));
     }
 
     /**
@@ -24,7 +33,7 @@ class StoreController extends Controller
      */
     public function create()
     {
-        //
+        return view('stores.create');
     }
 
     /**
@@ -35,7 +44,24 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:50|min:2|unique:stores'
+        ]);
+
+        $user_id = Auth::user()->id;
+
+        $store = new Store([
+            'name' => $request->input('name'),
+            'address' => $request->input('address'),
+            'state' => $request->input('state'),
+            'lga' => $request->input('lga'),
+            'description' => $request->input('description'),
+            'user_id' => $user_id
+        ]);
+
+        $store->save();
+
+        return redirect()->route('stores.show', ['store' => $store->id])->with('info', 'Store Created');
     }
 
     /**
@@ -46,7 +72,9 @@ class StoreController extends Controller
      */
     public function show(Store $store)
     {
-        //
+        // go stuff like get all product of a store
+
+        return view('stores.show', ['store' => $store]);
     }
 
     /**
