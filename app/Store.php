@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Store extends Model
 {
-    protected $table = 'stores';
+    use SoftDeletes;
 
+    protected $table = 'stores';
     protected $attributes = array(
         'logo' => 'default.png'
     );
@@ -21,4 +23,6 @@ class Store extends Model
       'lga',
       'user_id'
     ];
+
+    protected $dates = ['deleted_at'];
 }

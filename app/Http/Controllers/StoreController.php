@@ -139,6 +139,6 @@ class StoreController extends Controller
 
       $store->delete();
 
-      return redirect()->back();
+      return redirect()->route('stores.index');
     }
 }
