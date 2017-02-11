@@ -85,7 +85,13 @@ class StoreController extends Controller
      */
     public function edit(Store $store)
     {
-        //
+        $user_id = Auth::user()->id;
+
+        if ($user_id !== $store->user_id) {
+            return view('stores.error', ['error_code' => '403', 'error_message' => 'You\'re not allowed to view this page']);
+        }
+
+        return view('stores.edit', ['store' => $store]);
     }
 
     /**
@@ -97,7 +103,24 @@ class StoreController extends Controller
      */
     public function update(Request $request, Store $store)
     {
-        //
+        $user_id = Auth::user()->id;
+
+        if ($user_id !== $store->user_id) {
+            return view('stores.error', ['error_code' => '403', 'error_message' => 'You\'re not allowed to view this page']);
+        }
+
+        $this->validate($request, [
+            'name' => 'required|max:50|min:2'
+        ]);
+
+        $store->name = $request->input('name');
+        $store->address = $request->input('address');
+        $store->state = $request->input('state');
+        $store->lga = $request->input('lga');
+        $store->description = $request->input('description');
+        $store->save();
+
+        return redirect()->route('stores.show', ['store' => $store]);
     }
 
     /**
@@ -108,6 +131,14 @@ class StoreController extends Controller
      */
     public function destroy(Store $store)
     {
-        //
+      $user_id = Auth::user()->id;
+
+      if ($user_id !== $store->user_id) {
+          return view('stores.error', ['error_code' => '403', 'error_message' => 'You\'re not allowed to view this page']);
+      }
+
+      $store->delete();
+
+      return redirect()->back();
     }
 }
