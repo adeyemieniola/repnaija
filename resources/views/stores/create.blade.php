@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Create a Store</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('stores.store') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('stores.store') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -73,6 +73,19 @@
                                 @if ($errors->has('description'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('logo') ? ' has-error' : '' }}">
+                            <label for="logo" class="col-md-4 control-label">Upload Logo</label>
+
+                            <div class="col-md-6">
+                                <input id="logo" class="form-control" name="logo" type="file" accept="image/*">
+                                @if ($errors->has('logo'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('logo') }}</strong>
                                     </span>
                                 @endif
                             </div>

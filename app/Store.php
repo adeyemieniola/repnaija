@@ -10,13 +10,9 @@ class Store extends Model
     use SoftDeletes;
 
     protected $table = 'stores';
-    protected $attributes = array(
-        'logo' => 'default.png'
-    );
 
     protected $fillable = [
       'name',
-      'logo',
       'address',
       'description',
       'state',
@@ -25,4 +21,9 @@ class Store extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    public function logo()
+    {
+        return $this->morphOne('App\Image', 'imagetable');
+    }
 }

@@ -11,6 +11,9 @@
           <address>
               {{ $store->address }}
           </address>
+          @if ($store->logo)
+            <img src="{{ $store->logo->url }}" alt="{{ $store->logo->name }}" class="img-rounded">
+          @endif
           </p>
           <div>
               @if (Auth::user()->id == $store->user_id)
